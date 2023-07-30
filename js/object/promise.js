@@ -8,8 +8,6 @@
 // Promises Medium article:
 // https://medium.com/@arhamChowdhury/promises-in-javascript-de98fe4b24e1
 
-// Promise.all()
-
 const p1 = Promise.resolve("This is P1 resolve Promise");
 
 const p2 = new Promise(function (resolve, reject) {
@@ -39,7 +37,7 @@ const promisesArr = [p1, p2, p3, p4, p5];
 const promisesOnlySuccArr = [p1, p2, p3];
 const promisesOnlyFailArr = [p4, p5];
 
-// Promise.allSettled => returns an array of all the Promise
+// 1) Promise.allSettled => returns an array of all the Promise
 // whether it is resolved or rejected
 // Doesnt short circuit if any promise is rejected
 function myAllSettled(arr = []) {
@@ -70,7 +68,7 @@ function myAllSettledUsuingPromiseAll(promises) {
   return Promise.all(wrappedPromises);
 }
 
-// Promise.all Polyfill => Short Circuted One reject all is Rejected
+// 2) Promise.all Polyfill => Short Circuted One reject all is Rejected
 // order of execution does not matter
 // Runs All promises Parallely and returns a new promise.
 // If any of the Promise is rejected Promise.all() also fails and returns first rejected
@@ -90,7 +88,7 @@ function myAll(promises) {
   });
 }
 
-// Promise.race => Does'nt Short Circuted and returns first resolve/reject promise
+// 3) Promise.race => Does'nt Short Circuted and returns first resolve/reject promise
 // whichever promise executed first is returned
 function myRace(promises) {
   return new Promise(function (resolve, reject) {
@@ -106,7 +104,7 @@ function myRace(promises) {
   });
 }
 
-// Promise.any() => returns the first fulfilled promise
+// 4) Promise.any() => returns the first fulfilled promise
 // same as that of promise.race but returns only successful
 // if all items of promise input is unsuccessfull then will return an
 // array of rejected promise
