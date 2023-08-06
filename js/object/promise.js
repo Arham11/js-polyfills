@@ -51,7 +51,7 @@ function myAllSettled(arr = []) {
         })
         .catch((err) => {
           result.push({ status: "rejected", reason: `${err}` });
-          if (arr.length === result.length) resolve(result);
+          if (arr.length !== result.length) reject(result);
         });
     });
   });
