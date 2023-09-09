@@ -1,4 +1,7 @@
 "use strict";
+// to check if array is mutated or not
+// https://doesitmutate.xyz/
+
 // Array.prototype.forEach()
 // array.forEach(function(currentValue, index, arr), context)
 // function()	Required. A function to run for each array element.
@@ -55,19 +58,91 @@ Array.prototype.myMap = function (callback, context) {
 // Array.prototype.reduce()
 // array.reduce(function(total,currentvalue,index,arr),initialValue)
 // function()	Required. A function to be run for each element in the array.
-// total	Required. The initialValue, or the previously returned value of the function.
+// total	Required. The initialValue, or the totaliously returned value of the function.
 // currentValue	Required.The value of the current element.
 // currentIndex	Optional. The index of the current element.
 // arr	Optional. The array the current element belongs to.
 Array.prototype.myReduce = function (callback, initialValue) {
-  let accumalator = initialValue;
+  let currentItemumalator = initialValue;
   for (let i = 0; i < this.length; i++) {
     // If the initialValue exists, we call the callback function on the existing
-    // element and store in accumulator
-    if (accumalator) accumalator = callback(accumalator, this[i], i, this);
-    // If initialValue does not exist, we assign accumulator to the
+    // element and store in currentItemumulator
+    if (currentItemumalator)
+      currentItemumalator = callback(currentItemumalator, this[i], i, this);
+    // If initialValue does not exist, we assign currentItemumulator to the
     // current element of the array
-    else accumalator = this[i];
+    else currentItemumalator = this[i];
   }
-  return accumalator;
+  return currentItemumalator;
+};
+
+// Array.prototype.unshift() => mutates orignal array
+// unshift(...items: never[]): number
+// Elements to insert at the start of the array.
+// Inserts new elements at the start of an array, and returns the new length of the array.
+// testcases:
+// a = [2,3,4,5];
+// case1 : a.myunshift1("0", "1", "2"); // [0,1,2,3,4,5]
+// case2 : a.myunshift1(["0", "1", "2"]); // [[0,1,2],3,4,5]
+// case3 : a.myunshift1(...["0", "1", "2"]); // [0,1,2,3,4,5]
+
+Array.prototype.myUnshift = function (val) {
+  // insert a new val in "this"
+  if (this === undefined || this === null)
+    throw TypeError(`Cannot read properties of ${val} (reading 'unshift')`);
+
+  if (!arguments.length) {
+    return length;
+  }
+
+  let temp = [...arguments, ...this];
+  this.length = 0;
+  for (let i = 0; i < temp.length; i++) {
+    this[i] = temp[i];
+  }
+  // console.log(this);
+  return this.length;
+};
+
+Array.prototype.myUnshift1 = function (args) {
+  if (this === undefined || this === null)
+    throw TypeError(`Cannot read properties of ${val} (reading 'unshift')`);
+
+  if (!arguments.length) {
+    return length;
+  }
+  // move all the elements of array by the length of arguments
+  for (let i = this.length - 1; i >= 0; i--) {
+    this[i + arguments.length] = this[i];
+    delete this[i]; //keep deleting the previous element
+  }
+  // add arguments to the start
+  for (let j = 0; j < arguments.length; j++) {
+    this[j] = arguments[j];
+  }
+  // console.log(this, "---final");
+  return this.length;
+};
+
+// Array.prototype.pop() => mutates orignal array
+// returns the last element from the array
+// params : none
+Array.prototype.myPop = function () {
+  if (!this.length) return;
+  let lastEle = this[this.length - 1];
+  this.length--;
+  console.log(this);
+  return lastEle;
+};
+
+// Array.prototype.push() => mutates the orignal array
+// adds new item to the end of array and returns the total length array
+// params: arrays/strings/numbers/object;
+Array.prototype.myPush = function (args) {
+  if (!arguments.length) return this;
+
+  for (const i of arguments) {
+    this[this.length] = i;
+  }
+  return this.length;
 };
