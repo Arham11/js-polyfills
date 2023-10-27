@@ -114,12 +114,15 @@ function myAny(promises) {
     promises.forEach((p) => {
       Promise.resolve(p)
         .then((res) => resolve(res))
-        .catch((err) => rejArr.push(err));
-    });
-    return reject({
-      errors: rejArr,
-      message: "All promises were rejected",
-      stack: "AggregateError: All promises were rejected",
+        .catch((err) => {
+          rejArr.push(err);
+          if (promises.length === rejArr.length)
+            reject({
+              errors: rejArr,
+              message: "All promises were rejected",
+              stack: "AggregateError: All promises were rejected",
+            });
+        });
     });
   });
 }
