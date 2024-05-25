@@ -36,6 +36,7 @@ const p5 = new Promise(function (resolve, reject) {
 const promisesArr = [p1, p2, p3, p4, p5];
 const promisesOnlySuccArr = [p1, p2, p3];
 const promisesOnlyFailArr = [p4, p5];
+const nonPromisevalve = "2";
 
 // 1) Promise.allSettled => returns an array of all the Promise
 // whether it is resolved or rejected
@@ -78,6 +79,10 @@ function myAll(promises) {
   return new Promise(function (resolve, reject) {
     let result = [];
     promises.forEach((p) => {
+      // instead of doing value.then(), we have to use
+      // Promise.resolve(value) so that we can convert
+      // a non "promise" input into a "promise", and later
+      // chain it with .then()
       Promise.resolve(p)
         .then((res) => {
           result.push(res);
