@@ -48,13 +48,12 @@ function myAllSettled(arr = []) {
       item
         .then((value) => {
           result.push({ status: "fulfilled", value: value });
-          if (arr.length === result.length) resolve(result);
         })
         .catch((err) => {
           result.push({ status: "rejected", reason: `${err}` });
-          if (arr.length !== result.length) reject(result);
         });
     });
+    resolve(result);
   });
 }
 

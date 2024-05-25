@@ -146,3 +146,67 @@ Array.prototype.myPush = function (args) {
   }
   return this.length;
 };
+
+console.clear();
+
+const p1 = Promise.resolve("This is P1 resolve Promise");
+
+const p2 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    resolve("This is p2 resolved promise");
+  }, 1000);
+});
+
+const p3 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    resolve("This is p3 resolved promise");
+  }, 2000);
+});
+
+const p4 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    reject("P4 is Rejected");
+  }, 0);
+});
+const p5 = new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    reject("P5 is Rejected");
+  }, 3000);
+});
+
+const promisesArr = [p1, p2, p3, p4, p5];
+const promisesOnlySuccArr = [p1, p2, p3];
+const promisesOnlyFailArr = [p4, p5];
+const nonPromisevalve = "2";
+
+// function allSettled(arr) {
+//   let result = [];
+//   return new Promise(function (resolve, reject) {
+//     arr.myForEach((item) => {
+//       item
+//         .then((succ) => {
+//           result.push({ status: "fulfilled", reason: succ });
+//         })
+//         .catch((err) => {
+//           result.push({ status: "rejected", reason: err });
+//         });
+//     });
+//     resolve(result);
+//   });
+// }
+
+function myAllSettled(arr = []) {
+  return new Promise(function processIterable(resolve, reject) {
+    let result = [];
+    arr.forEach((item) => {
+      item
+        .then((value) => {
+          result.push({ status: "fulfilled", value: value });
+        })
+        .catch((err) => {
+          result.push({ status: "rejected", reason: `${err}` });
+        });
+    });
+    resolve(result);
+  });
+}
