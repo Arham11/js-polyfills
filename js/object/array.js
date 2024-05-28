@@ -3,6 +3,14 @@
 // https://doesitmutate.xyz/
 
 // Array.prototype.forEach()
+// Array.prototype.filter()
+// Array.prototype.map()
+// Array.prototype.reduce()
+// Array.prototype.unShift()
+// Array.prototype.pop()
+// Array.prototype.push()
+
+// Array.prototype.forEach()
 // array.forEach(function(currentValue, index, arr), context)
 // function()	Required. A function to run for each array element.
 // currentValue Required. The value of the current element.
@@ -131,13 +139,14 @@ Array.prototype.myPop = function () {
   if (!this.length) return;
   let lastEle = this[this.length - 1];
   this.length--;
-  console.log(this);
+  // console.log(this);
   return lastEle;
 };
 
 // Array.prototype.push() => mutates the orignal array
-// adds new item to the end of array and returns the total length array
+// adds new item to the end of array
 // params: arrays/strings/numbers/object;
+// returns the total length array
 Array.prototype.myPush = function (args) {
   if (!arguments.length) return this;
 
@@ -145,4 +154,20 @@ Array.prototype.myPush = function (args) {
     this[this.length] = i;
   }
   return this.length;
+};
+
+// Array.prototype.shift() => mutates the orignal array
+// method removes the first item of an array.
+// params : none
+// returns the first element from the array
+Array.prototype.myShift = function (args) {
+  if (!this.length) return;
+
+  let first = this[0];
+  for (let i = 0; i < this.length - 1; i++) {
+    this[i] = this[i + 1];
+  }
+  this.length--;
+  // console.log(this);
+  return first;
 };
