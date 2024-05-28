@@ -3,6 +3,14 @@
 // https://doesitmutate.xyz/
 
 // Array.prototype.forEach()
+// Array.prototype.filter()
+// Array.prototype.map()
+// Array.prototype.reduce()
+// Array.prototype.unShift()
+// Array.prototype.pop()
+// Array.prototype.push()
+
+// Array.prototype.forEach()
 // array.forEach(function(currentValue, index, arr), context)
 // function()	Required. A function to run for each array element.
 // currentValue Required. The value of the current element.
