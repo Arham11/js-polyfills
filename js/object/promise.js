@@ -94,19 +94,22 @@ function myAll(promises) {
 
 // 3) Promise.race => Does'nt Short Circuted and returns first resolve/reject promise
 // whichever promise executed first is returned
-function myRace(promises) {
-  return new Promise(function (resolve, reject) {
-    promises.forEach((p) => {
-      Promise.resolve(p)
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+function myRace(promisesArray) {
+  return new Promise((resolve, reject) => {
+    promisesArray.forEach((promise) => {
+      Promise.resolve(promise)
+        .then(resolve) // resolve outer promise, as and when any of the input promise resolves
+        .catch(reject); // reject outer promise, as and when any of the input promise rejects
     });
   });
 }
+//        Promise.resolve(p)
+//         .then((res) => {       // if we are using the callback the callback for myRacewill register another promise and it
+//           resolve(res);       // will get executed even if the outer promise is already finished bcoz promise are async
+//         })                   // though in result we can see only one promise but in the backend all promise will get executed and
+//         .catch((err) => {   // there is no short circuit.
+//           reject(err);
+//         });
 
 // 4) Promise.any() => returns the first fulfilled promise
 // same as that of promise.race but returns only successful
