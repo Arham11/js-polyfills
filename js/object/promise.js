@@ -41,7 +41,7 @@ const nonPromisevalve = "2";
 // 1) Promise.allSettled => returns an array of all the Promise
 // whether it is resolved or rejected
 // Doesnt short circuit if any promise is rejected
-function allSettled(promises) {
+function myAllSettled(promises) {
   return new Promise((resolve) => {
     let results = [];
     let count = 0;
