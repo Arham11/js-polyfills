@@ -41,19 +41,28 @@ const nonPromisevalve = "2";
 // 1) Promise.allSettled => returns an array of all the Promise
 // whether it is resolved or rejected
 // Doesnt short circuit if any promise is rejected
-function myAllSettled(arr = []) {
-  return new Promise(function processIterable(resolve, reject) {
-    let result = [];
-    arr.forEach((item) => {
-      item
+function myAllSettled(promises) {
+  return new Promise((resolve) => {
+    let results = [];
+    let count = 0;
+
+    promises.forEach((promise, index) => {
+      // Wrap the promise with a .then() and .catch() to capture the result
+      promise
         .then((value) => {
-          result.push({ status: "fulfilled", value: value });
+          results[index] = { status: "fulfilled", value };
         })
-        .catch((err) => {
-          result.push({ status: "rejected", reason: `${err}` });
+        .catch((reason) => {
+          results[index] = { status: "rejected", reason };
+        })
+        .finally(() => {
+          count++;
+          // Once all promises have settled, resolve the outer promise
+          if (count === promises.length) {
+            resolve(results);
+          }
         });
     });
-    resolve(result);
   });
 }
 
