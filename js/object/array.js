@@ -20,7 +20,7 @@
 // context	Optional. Default undefined. A value passed to the function as its this value.
 // more on context "https://www.javascripttutorial.net/javascript-array-foreach/"
 // One limitation of the forEach() method compared to the for loop is that you cannot use the break or continue statement to control the loop.
-// To terminate the loop in the forEach()method, you must throw an exception inside the callback function.
+// To terminate the loop in the forEach()method, you must throw an exception inside the callback function
 
 Array.prototype.myForEach = function (callback, context) {
   if (!Array.isArray(this)) {
