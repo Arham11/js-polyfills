@@ -9,6 +9,7 @@
 // Array.prototype.unShift()
 // Array.prototype.pop()
 // Array.prototype.push()
+// Array.prototype.shift()
 
 // Array.prototype.forEach()
 // array.forEach(function(currentValue, index, arr), context)
@@ -18,9 +19,16 @@
 // arr	Optional. The array of the current element.
 // context	Optional. Default undefined. A value passed to the function as its this value.
 // more on context "https://www.javascripttutorial.net/javascript-array-foreach/"
+// One limitation of the forEach() method compared to the for loop is that you cannot use the break or continue statement to control the loop.
+// To terminate the loop in the forEach()method, you must throw an exception inside the callback function.
+
 Array.prototype.myForEach = function (callback, context) {
-  if (this.__proto__ !== Array.prototype) throw new TypeError(this);
-  context = context || window;
+  if (!Array.isArray(this)) {
+    throw new TypeError(`${this}.myForEach is not a function`);
+  }
+  if (!callback || typeof callback !== "function") {
+    throw new TypeError(`${callback} is not a function`);
+  }
   for (let i = 0; i < this.length; i++) {
     // function(currentValue, index, arr), context)
     callback.call(context, this[i], i, this);
@@ -36,14 +44,18 @@ Array.prototype.myForEach = function (callback, context) {
 // context	Optional. Default undefined. A value passed to the function as its this value.
 // more on context "https://www.javascripttutorial.net/javascript-array-foreach/"
 Array.prototype.myFilter = function (callback, context) {
-  if (this.__proto__ !== Array.prototype) throw new TypeError(this);
-  let newArray = [];
-  for (let i = 0; i < this.length; i++) {
-    if (callback.call(context, this[i], i, this)) {
-      newArray.push(this[i]);
-    }
+  if (!Array.isArray(this)) {
+    throw new TypeError(`${this}.myFilter is not a function`);
   }
-  return newArray;
+  if (!callback || typeof callback !== "function") {
+    throw new TypeError(`${callback} is not a function`);
+  }
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    let value = callback.call(context, this[i], i, this);
+    if (value) result.push(this[i]);
+  }
+  return result;
 };
 
 // Array.prototype.map()
@@ -54,13 +66,20 @@ Array.prototype.myFilter = function (callback, context) {
 // arr	Optional. The array of the current element.
 // context	Optional. Default undefined. A value passed to the function as its this value.
 // more on context "https://www.javascripttutorial.net/javascript-array-foreach/"
+
 Array.prototype.myMap = function (callback, context) {
-  if (this.__proto__ !== Array.prototype) throw new TypeError(this);
-  let newArray = [];
-  for (let i = 0; i < this.length; i++) {
-    newArray.push(callback.call(context, i, this[i], this));
+  if (!Array.isArray(this)) {
+    throw new TypeError(`${this}.myFilter is not a function`);
   }
-  return newArray;
+  if (!callback || typeof callback !== "function") {
+    throw new TypeError(`${callback} is not a function`);
+  }
+  let result = [];
+  for (let i = 0; i < this.length; i++) {
+    let value = callback.call(context, this[i], i, this);
+    result.push(value);
+  }
+  return result;
 };
 
 // Array.prototype.reduce()
