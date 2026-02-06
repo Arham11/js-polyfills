@@ -36,22 +36,31 @@ const p5 = new Promise(function (resolve, reject) {
 const promisesArr = [p1, p2, p3, p4, p5];
 const promisesOnlySuccArr = [p1, p2, p3];
 const promisesOnlyFailArr = [p4, p5];
+const nonPromisevalve = "2";
 
 // 1) Promise.allSettled => returns an array of all the Promise
 // whether it is resolved or rejected
 // Doesnt short circuit if any promise is rejected
-function myAllSettled(arr = []) {
-  return new Promise(function processIterable(resolve, reject) {
-    let result = [];
-    arr.forEach((item) => {
-      item
+function myAllSettled(promises) {
+  return new Promise((resolve) => {
+    let results = [];
+    let count = 0;
+
+    promises.forEach((promise, index) => {
+      // Wrap the promise with a .then() and .catch() to capture the result
+      promise
         .then((value) => {
-          result.push({ status: "fulfilled", value: value });
-          if (arr.length === result.length) resolve(result);
+          results[index] = { status: "fulfilled", value };
         })
-        .catch((err) => {
-          result.push({ status: "rejected", reason: `${err}` });
-          if (arr.length !== result.length) reject(result);
+        .catch((reason) => {
+          results[index] = { status: "rejected", reason };
+        })
+        .finally(() => {
+          count++;
+          // Once all promises have settled, resolve the outer promise
+          if (count === promises.length) {
+            resolve(results);
+          }
         });
     });
   });
@@ -78,6 +87,10 @@ function myAll(promises) {
   return new Promise(function (resolve, reject) {
     let result = [];
     promises.forEach((p) => {
+      // instead of doing value.then(), we have to use
+      // Promise.resolve(value) so that we can convert
+      // a non "promise" input into a "promise", and later
+      // chain it with .then()
       Promise.resolve(p)
         .then((res) => {
           result.push(res);
@@ -90,19 +103,22 @@ function myAll(promises) {
 
 // 3) Promise.race => Does'nt Short Circuted and returns first resolve/reject promise
 // whichever promise executed first is returned
-function myRace(promises) {
-  return new Promise(function (resolve, reject) {
-    promises.forEach((p) => {
-      Promise.resolve(p)
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+function myRace(promisesArray) {
+  return new Promise((resolve, reject) => {
+    promisesArray.forEach((promise) => {
+      Promise.resolve(promise)
+        .then(resolve) // resolve outer promise, as and when any of the input promise resolves
+        .catch(reject); // reject outer promise, as and when any of the input promise rejects
     });
   });
 }
+//        Promise.resolve(p)
+//         .then((res) => {       // if we are using the callback the callback for myRacewill register another promise and it
+//           resolve(res);       // will get executed even if the outer promise is already finished bcoz promise are async
+//         })                   // though in result we can see only one promise but in the backend all promise will get executed and
+//         .catch((err) => {   // there is no short circuit.
+//           reject(err);
+//         });
 
 // 4) Promise.any() => returns the first fulfilled promise
 // same as that of promise.race but returns only successful
@@ -114,12 +130,15 @@ function myAny(promises) {
     promises.forEach((p) => {
       Promise.resolve(p)
         .then((res) => resolve(res))
-        .catch((err) => rejArr.push(err));
-    });
-    return reject({
-      errors: rejArr,
-      message: "All promises were rejected",
-      stack: "AggregateError: All promises were rejected",
+        .catch((err) => {
+          rejArr.push(err);
+          if (promises.length === rejArr.length)
+            reject({
+              errors: rejArr,
+              message: "All promises were rejected",
+              stack: "AggregateError: All promises were rejected",
+            });
+        });
     });
   });
 }
