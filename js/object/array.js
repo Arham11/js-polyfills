@@ -155,7 +155,11 @@ Array.prototype.myUnshift1 = function (args) {
 // returns the last element from the array
 // params : none
 Array.prototype.myPop = function () {
+  if (!Array.isArray(this)) {
+    throw new TypeError(`${this}.myPop is not an Function`);
+  }
   if (!this.length) return;
+
   let lastEle = this[this.length - 1];
   this.length--;
   // console.log(this);
