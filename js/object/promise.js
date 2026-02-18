@@ -55,8 +55,9 @@ function myAllSettled(promises) {
         .catch((reason) => {
           results[index] = { status: "rejected", reason };
         })
+        // executes after each item is done with their async task
         .finally(() => {
-          count++;
+          count++; // count forms a closure here
           // Once all promises have settled, resolve the outer promise
           if (count === promises.length) {
             resolve(results);
@@ -71,8 +72,8 @@ function myAllSettledUsuingPromiseAll(promises) {
   let wrappedPromises = promises.map((p) =>
     Promise.resolve(p).then(
       (val) => ({ status: "fulfilled", value: val }),
-      (err) => ({ status: "rejected", reason: err })
-    )
+      (err) => ({ status: "rejected", reason: err }),
+    ),
   );
   return Promise.all(wrappedPromises);
 }
