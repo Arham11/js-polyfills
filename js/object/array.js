@@ -112,29 +112,27 @@ Array.prototype.myReduce = function (callback, initialValue) {
 // case1 : a.myunshift1("0", "1", "2"); // [0,1,2,3,4,5]
 // case2 : a.myunshift1(["0", "1", "2"]); // [[0,1,2],3,4,5]
 // case3 : a.myunshift1(...["0", "1", "2"]); // [0,1,2,3,4,5]
-
-Array.prototype.myUnshift = function (val) {
-  // insert a new val in "this"
-  if (this === undefined || this === null)
-    throw TypeError(`Cannot read properties of ${val} (reading 'unshift')`);
-
+// Time complexity = O(n)
+Array.prototype.myUnshift = function () {
   if (!arguments.length) {
-    return length;
+    return this.length;
   }
 
+  // a.myUnshift("100", "200", "300");
+  // {
+  //     "0": "100",
+  //     "1": "200",
+  //     "2": "300"
+  // }
   let temp = [...arguments, ...this];
   this.length = 0;
   for (let i = 0; i < temp.length; i++) {
     this[i] = temp[i];
   }
-  // console.log(this);
   return this.length;
 };
 
-Array.prototype.myUnshift1 = function (args) {
-  if (this === undefined || this === null)
-    throw TypeError(`Cannot read properties of ${val} (reading 'unshift')`);
-
+Array.prototype.myUnshift1 = function () {
   if (!arguments.length) {
     return length;
   }
@@ -153,7 +151,7 @@ Array.prototype.myUnshift1 = function (args) {
 
 // Array.prototype.pop() => mutates orignal array
 // returns the last element from the array
-// params : none
+// Time complexity = O(1)
 Array.prototype.myPop = function () {
   if (!Array.isArray(this)) {
     throw new TypeError(`${this}.myPop is not an Function`);
@@ -170,7 +168,8 @@ Array.prototype.myPop = function () {
 // adds new item to the end of array
 // params: arrays/strings/numbers/object;
 // returns the total length array
-Array.prototype.myPush = function (args) {
+// Time complexity = O(1)
+Array.prototype.myPush = function () {
   if (!arguments.length) return this;
 
   for (const i of arguments) {
@@ -181,16 +180,16 @@ Array.prototype.myPush = function (args) {
 
 // Array.prototype.shift() => mutates the orignal array
 // method removes the first item of an array.
-// params : none
+// params: none
 // returns the first element from the array
-Array.prototype.myShift = function (args) {
-  if (!this.length) return;
+// Time complexity = O(n)
+Array.prototype.myShift = function () {
+  if (!this.length) return undefined;
 
   let first = this[0];
   for (let i = 0; i < this.length - 1; i++) {
     this[i] = this[i + 1];
   }
   this.length--;
-  // console.log(this);
   return first;
 };
