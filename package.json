@@ -1,0 +1,24 @@
+{
+  "name": "js-polyfills",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Arham11/js-polyfills#readme",
+  "bugs": {
+    "url": "https://github.com/Arham11/js-polyfills/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arham11/js-polyfills.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest __test__"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.3.0"
+  }
+}
