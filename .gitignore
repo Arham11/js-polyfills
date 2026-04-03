@@ -1,0 +1,25 @@
+# --- Ignore specific files ---
+secret_config.json
+notes.txt
+
+# --- Ignore specific folders ---
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+
+# --- Ignore files by extension ---
+*.log
+*.tmp
+*.bak
+*.exe
+
+# --- Exceptions (Do NOT ignore this file) ---
+!important_report.log
+
+# --- Ignore files in a specific directory only ---
+/docs/*.pdf
+
+# --- Ignore all .DS_Store files anywhere in the project ---
+**/.DS_Store

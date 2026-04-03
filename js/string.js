@@ -1,5 +1,5 @@
 // String.prototype.concat
-// The concat() method concatenates the string arguments
+// The concat() method concatenates the string arguments (multiple args)
 // to the calling string and returns a new string.
 
 // testcases:
@@ -11,20 +11,13 @@
 // "".concat(true); // "true"
 // "".concat("abc".concat("pqr").concat("xyz")) // 'abcpqrxyz'
 
-String.prototype.myConcat = function (...str) {
-  if (this.__proto__ === String.prototype) {
-    let result = this;
-    for (let s of str) {
-      result += s;
-    }
-    return result;
+String.prototype.myConcat = function (...args) {
+  // 1. Coerce 'this' to a string (throws TypeError if null/undefined)
+  let result = String(this);
+  // 2. Iterate through all arguments
+  for (const i of args) {
+    // 3. Coerce each argument to a string and appends
+    result += String(i);
   }
+  return result;
 };
-
-console.log("".myConcat("1", "2", "3", "4"));
-console.log("".myConcat(...["Hello", " ", "Venkat", "!"]));
-console.log("".myConcat({}));
-console.log("".myConcat([]));
-console.log("".myConcat(null));
-console.log("".myConcat(true));
-console.log("".myConcat("abc".concat("pqr").concat("xyz")));
