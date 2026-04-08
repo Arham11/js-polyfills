@@ -89,18 +89,26 @@ Array.prototype.myMap = function (callback, context) {
 // currentValue	Required.The value of the current element.
 // currentIndex	Optional. The index of the current element.
 // arr	Optional. The array the current element belongs to.
+
 Array.prototype.myReduce = function (callback, initialValue) {
-  let currentItemumalator = initialValue;
-  for (let i = 0; i < this.length; i++) {
-    // If the initialValue exists, we call the callback function on the existing
-    // element and store in currentItemumulator
-    if (currentItemumalator)
-      currentItemumalator = callback(currentItemumalator, this[i], i, this);
-    // If initialValue does not exist, we assign currentItemumulator to the
-    // current element of the array
-    else currentItemumalator = this[i];
+  let accumulator = initialValue;
+  let startIndex = 0;
+
+  // Check if initialValue was actually provided as an argument
+  if (arguments.length < 2) {
+    if (this.length === 0) {
+      throw new TypeError("Reduce of empty array with no initial value");
+    }
+    // No initialValue? Use the first element and start loop at index 1
+    accumulator = this[0];
+    startIndex = 1;
   }
-  return currentItemumalator;
+
+  for (let i = startIndex; i < this.length; i++) {
+    accumulator = callback(accumulator, this[i], i, this);
+  }
+
+  return accumulator;
 };
 
 // Array.prototype.unshift() => mutates orignal array
