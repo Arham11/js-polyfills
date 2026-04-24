@@ -201,3 +201,33 @@ Array.prototype.myShift = function () {
   this.length--;
   return first;
 };
+
+// Array.prototype.flat()
+// method flatten nested arrays into a new, single-level array (depending on the second parameter)
+// Time complexity = O(n)
+Array.prototype.myFlat = function (depth = 1) {
+  let result = [];
+
+  function helper(arr, currentDepth) {
+    // Using a standard loop to skip "empty" slots
+    for (let i = 0; i < arr.length; i++) {
+      // Check if the index actually exists in the array
+      debugger;
+      if (i in arr) {
+        const item = arr[i];
+        if (Array.isArray(item) && currentDepth > 0) {
+          helper(item, currentDepth - 1);
+        } else {
+          result.push(item);
+        }
+      }
+    }
+  }
+
+  helper(this, depth);
+  return result;
+};
+
+// const arr = [1, 2];
+// ((arr[4] = undefined), (arr[5] = [3, 4]));
+// arr[5][4] = [5, 6, [7, 8, [9, 10]]];
