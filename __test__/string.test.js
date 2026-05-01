@@ -30,4 +30,14 @@ describe("String.prototype.myConcat - Specific Examples", () => {
     const nested = "abc".concat("pqr").concat("xyz");
     expect("".myConcat(nested)).toBe("abcpqrxyz");
   });
+
+  test("handle special objects like date", () => {
+    const date = new Date();
+    expect("".myConcat(date).toBe);
+  });
+
+  test("coerces new Date(0) to its string representation", () => {
+    const d = new Date(0);
+    expect("".myConcat(d)).toBe(String(d));
+  });
 });
