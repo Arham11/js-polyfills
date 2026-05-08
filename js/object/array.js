@@ -203,7 +203,7 @@ Array.prototype.myShift = function () {
 };
 
 // Array.prototype.flat()
-// method flatten nested arrays into a new, single-level array (depending on the second parameter)
+// Method flatten nested arrays into a new, single-level array (depending on the second parameter)
 // Time complexity = O(n)
 Array.prototype.myFlat = function (depth = 1) {
   let result = [];
@@ -231,3 +231,54 @@ Array.prototype.myFlat = function (depth = 1) {
 // const arr = [1, 2];
 // ((arr[4] = undefined), (arr[5] = [3, 4]));
 // arr[5][4] = [5, 6, [7, 8, [9, 10]]];
+
+// Array.prototype.myFlat()
+
+// Array.prototype.myFlatMap = function (callback, context) {
+//   if (!Array.isArray(this)) {
+//     new TypeError(`${this} is not a function at myFlatMap`);
+//   }
+
+//   if (!callback && typeof callback !== "function") {
+//     throw new TypeError(`${callback} is not a function`);
+//   }
+
+//   context = context || globalThis;
+//   let result = [];
+//   for (let i = 0; i < this.length; i++) {
+//     const callbackLength = callback().length;
+//     debugger;
+//     for (let j = 0; j < callbackLength; j++) {
+//       result.push(callback.call(context, this[i], i, this));
+//     }
+//   }
+//   return result;
+// };
+Array.prototype.myFlatMap = function (callback, thisArg) {
+  if (this == null) {
+    throw new TypeError("Array.prototype.flatMap called on null or undefined");
+  }
+
+  if (typeof callback !== "function") {
+    throw new TypeError(callback + " is not a function");
+  }
+
+  const result = [];
+
+  for (let i = 0; i < this.length; i++) {
+    if (i in this) {
+      const mappedValue = callback.call(thisArg, this[i], i, this);
+
+      if (Array.isArray(mappedValue)) {
+        result.push(...mappedValue); // flatten ONE level
+      } else {
+        result.push(mappedValue);
+      }
+    }
+  }
+
+  return result;
+};
+// [1,2,3, [4]] => [1,2,3,4] => *10 => [10,20,30,40]
+
+[1, 2, 3].myFlatMap((i) => [10, 20]);
